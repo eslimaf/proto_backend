@@ -1,4 +1,15 @@
 Rails.application.routes.draw do
+
+  resources :locations , only: [:index, :show, :update]
+
+  resources :technicians do
+    resources :ratings, except: [:update, :destroy, :show ,:new, :edit]
+  end
+
+  resources :ratings, only: [:update, :destroy]
+
+  resources :customers
+
   devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
@@ -6,8 +17,9 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'home#index'
 
-  # Example of regular route:
-  #   get 'products/:id' => 'catalog#view'
+  get 'technicians/location/:id' => 'technicians#technician_location' , as: 'technician_location'
+
+  get 'customers/location/:id' => 'customers#customer_location' , as: 'customer_location'
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
